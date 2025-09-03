@@ -1,0 +1,24 @@
+/* === Reset & Base Styles === */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: "Segoe UI", Roboto, Arial, sans-serif; background: #f7f8fa; color: #333; line-height: 1.6; }
+.wrap { width: 90%; max-width: 900px; margin: 0 auto; }
+.site-header, .site-footer { background: #222; color: #fff; padding: 1rem 0; text-align: center; }
+.brand { font-size: 1.8rem; }
+.nav { margin-top: 0.5rem; }
+.nav a { color: #ddd; margin: 0 0.8rem; text-decoration: none; font-weight: 500; }
+.nav a:hover { color: #fff; }
+.hero { text-align: center; padding: 3rem 1rem; background: linear-gradient(135deg, #007bff, #00d4ff); color: #fff; border-radius: 8px; margin: 1.5rem 0; }
+.hero h2 { font-size: 2rem; margin-bottom: 1rem; }
+.card { background: #fff; padding: 2rem; margin: 1.5rem 0; border-radius: 8px; box-shadow: 0 3px 6px rgba(0,0,0,0.1); }
+.card h3 { margin-bottom: 1rem; color: #007bff; }
+form label { display: block; margin-bottom: 1rem; font-weight: 500; }
+form input, form select, form textarea { width: 100%; padding: 0.6rem; margin-top: 0.4rem; border: 1px solid #ccc; border-radius: 5px; font-size: 1rem; }
+form input:focus, form select:focus, form textarea:focus { border-color: #007bff; outline: none; }
+.btn { display: inline-block; padding: 0.7rem 1.5rem; background: #007bff; color: #fff; border: none; border-radius: 5px; text-decoration: none; cursor: pointer; font-size: 1rem; }
+.btn:hover { background: #0056b3; }
+.btn.outline { background: transparent; border: 2px solid #007bff; color: #007bff; }
+.btn.outline:hover { background: #007bff; color: #fff; }
+.status { margin-top: 1rem; font-size: 0.95rem; }
+.status.ok { color: green; }
+.status.err { color: red; }
+.site-footer small { color: #bbb; }

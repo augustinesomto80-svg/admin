@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Booking & Inquiries — My Site</title>
+  <link rel="stylesheet" href="style.css">
+  <meta name="description" content="Book services, send inquiries, and get quick replies.">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <h1 class="brand">My Booking Site</h1>
+      <nav class="nav">
+        <a href="#book">Book</a>
+        <a href="#inquiry">Inquiry</a>
+        <a href="#about">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section id="hero" class="hero">
+      <h2>Book your appointment — fast & easy</h2>
+      <p>Choose a service, pick a date, and we'll confirm your booking. Questions? Send an inquiry below.</p>
+      <a class="btn" href="#book">Start Booking</a>
+    </section>
+
+    <section id="book" class="card">
+      <h3>Booking Request</h3>
+      <form id="bookingForm">
+        <label>Full name <input name="name" type="text" required /></label>
+        <label>Email <input name="email" type="email" required /></label>
+        <label>Service
+          <select name="service" required>
+            <option value="">Select a service</option>
+            <option>Standard Booking</option>
+            <option>Premium Booking</option>
+            <option>Consultation</option>
+          </select>
+        </label>
+        <label>Preferred date <input name="date" type="date" required /></label>
+        <label>Notes (optional) <textarea name="message" rows="4"></textarea></label>
+        <button type="submit" class="btn">Send Booking Request</button>
+        <p id="bookingStatus" class="status"></p>
+      </form>
+    </section>
+
+    <section id="inquiry" class="card">
+      <h3>Quick Inquiry</h3>
+      <form id="inquiryForm">
+        <label>Name <input name="name" required /></label>
+        <label>Email <input name="email" type="email" required /></label>
+        <label>Subject <input name="subject" required /></label>
+        <label>Message <textarea name="message" rows="5" required></textarea></label>
+        <button type="submit" class="btn outline">Send Inquiry</button>
+        <p id="inquiryStatus" class="status"></p>
+      </form>
+    </section>
+
+    <section id="about" class="card">
+      <h3>About</h3>
+      <p>This site handles bookings and inquiries. Bookings will be reviewed and confirmed by email. For immediate help, use the inquiry form above.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <small>&copy; <span id="year"></span> My Booking Site — All rights reserved.</small>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    async function postInquiry(payload, statusElement) {
+      statusElement.textContent = 'Sending…';
+      try {
+        const res = await fetch('/inquiry', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (res.ok) {
+          statusElement.textContent = 'Sent — we will contact you soon!';
+          return true;
+        } else {
+          statusElement.textContent = 'Error sending form.';
+          return false;
+        }
+      } catch (e) {
+        statusElement.textContent = 'Network error: ' + e.message;
+        return false;
+      }
+    }
+
+    document.getElementById('inquiryForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const f = e.target;
+      const payload = {
+        name: f.name.value.trim(),
+        email: f.email.value.trim(),
+        subject: f.subject.value.trim(),
+        message: f.message.value.trim()
+      };
+      const ok = await postInquiry(payload, document.getElementById('inquiryStatus'));
+      if (ok) f.reset();
+    });
+
+    document.getElementById('bookingForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const f = e.target;
+      const payload = {
+        name: f.name.value.trim(),
+        email: f.email.value.trim(),
+        subject: 'Booking Request: ' + (f.service.value || 'Unknown'),
+        message: `Preferred date: ${f.date.value}\nNotes:\n${(f.message.value||'')}`
+      };
+      const ok = await postInquiry(payload, document.getElementById('bookingStatus'));
+      if (ok) f.reset();
+    });
+  </script>
+</body>
+</html>
